@@ -1,0 +1,25 @@
+#!/bin/bash -e
+
+ENV=install-test-env
+[ ! -d $ENV ]
+virtualenv $ENV
+. $ENV/bin/activate
+
+PACKAGE=cookbook
+REPO=Cookbook
+TEST_INSTALL="python -c \"import $PACKAGE\""
+UNINSTALL="pip uninstall --yes $PACKAGE"
+
+# Install from git
+pip install git+https://github.com:JohnReid/$REPO.git
+$TEST_INSTALL
+$UNINSTALL
+
+# Install from PyPI
+pip install $PACKAGE
+$TEST_INSTALL
+$UNINSTALL
+
+# Install local version
+python setup.py install
+$TEST_INSTALL
