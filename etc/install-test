@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 ENV=install-test-env
 [ ! -d $ENV ]
