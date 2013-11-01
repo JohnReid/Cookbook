@@ -7,19 +7,18 @@ virtualenv $ENV
 
 PACKAGE=cookbook
 REPO=Cookbook
-TEST_INSTALL="python -c \"import $PACKAGE\""
 UNINSTALL="pip uninstall --yes $PACKAGE"
 
 # Install from git
-pip install git+https://github.com:JohnReid/$REPO.git
-$TEST_INSTALL
+pip install git+https://github.com/JohnReid/$REPO.git
+python -c "import $PACKAGE"
 $UNINSTALL
 
 # Install from PyPI
 pip install $PACKAGE
-$TEST_INSTALL
+python -c "import $PACKAGE"
 $UNINSTALL
 
 # Install local version
 python setup.py install
-$TEST_INSTALL
+python -c "import $PACKAGE"
