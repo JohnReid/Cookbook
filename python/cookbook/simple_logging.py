@@ -76,8 +76,8 @@ def log_exception_traceback(level=logging.ERROR, logger=None):
     """
     Log the traceback for the current exception.
     """
-    import traceback, cStringIO
-    tb = cStringIO.StringIO()
+    import traceback, io
+    tb = io.StringIO()
     traceback.print_tb(sys.exc_info()[2], file=tb)
     if None == logger:
         logger = logging.getLogger('')
@@ -139,8 +139,8 @@ if '__main__' == __name__:
         "Test exception function."
         raise RuntimeError('Error occurred')
 
-    print 'Fn name: %s' % exception_raiser.__name__
-    print 'Fn docstring: %s' % exception_raiser.__doc__
+    print('Fn name: %s' % exception_raiser.__name__)
+    print('Fn docstring: %s' % exception_raiser.__doc__)
     try:
         exception_raiser()
     except:

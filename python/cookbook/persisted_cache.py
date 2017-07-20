@@ -5,7 +5,7 @@
 """
 Code for lazy cached initialisation.
 """
-import cPickle
+import pickle
 
 class Cache(object):
     """
@@ -40,17 +40,17 @@ class PersistedCache(Cache):
     def __call__(self):
         if None == self.instance:
             try:
-                print 'Unpickling: %s' % self.pickle_file
-                self.instance = cPickle.load(open(self.pickle_file))
+                print('Unpickling: %s' % self.pickle_file)
+                self.instance = pickle.load(open(self.pickle_file))
             except:
-                print 'Unpickling failed: %s' % self.pickle_file
+                print('Unpickling failed: %s' % self.pickle_file)
                 self.instance =  Cache.__call__(self)
         return self.instance
 
     def persist(self):
         "Pickle object to disk"
-        print 'Pickling: %s' % self.pickle_file
-        cPickle.dump(self(), open(self.pickle_file, 'w'))
+        print('Pickling: %s' % self.pickle_file)
+        pickle.dump(self(), open(self.pickle_file, 'w'))
 
 def persist_all_in(variables):
     'Persist all the PersistedCaches in the given set of variables. E.g. persist_all_in(vars().values())'

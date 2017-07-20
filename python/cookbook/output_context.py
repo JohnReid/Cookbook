@@ -38,7 +38,7 @@ class OutputContext(object):
         if None == tag: # if no tag supplied, work out which is next.
             existing_output_dirs = glob.glob(os.path.join(self.root_dir, '[0-9][0-9][0-9][0-9]'))
             if len(existing_output_dirs):
-                existing_tags = map(os.path.basename, existing_output_dirs)
+                existing_tags = list(map(os.path.basename, existing_output_dirs))
                 existing_tags.sort()
                 tag = '%04d' % (int(existing_tags[-1]) + 1)
             else:
@@ -89,6 +89,6 @@ if '__main__' == __name__:
     output_context.setUp('output')
         
     logging.debug('Calling cached function.')
-    print square(9)
-    print square(9)
+    print(square(9))
+    print(square(9))
     

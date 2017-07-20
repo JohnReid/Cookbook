@@ -7,11 +7,12 @@ Creates Venn diagrams from up to 4 sets.
 """
 
 import numpy as N, scipy.optimize as O, warnings
+from functools import reduce
 
 
 def mid_points(xs):
     "Calculate mid_points"
-    return [(xs[i] + xs[i+1])/2 for i in xrange(len(xs)-1)]
+    return [(xs[i] + xs[i+1])/2 for i in range(len(xs)-1)]
 
 def calc_grid_areas(xs, ys):
     "Calculate the areas given by the grid bounds."
@@ -19,9 +20,9 @@ def calc_grid_areas(xs, ys):
         [
             [
                 (xs[i+1] - xs[i]) * (ys[j+1] - ys[j])
-                for i in xrange(len(xs)-1)
+                for i in range(len(xs)-1)
             ]
-            for j in xrange(len(ys)-1)
+            for j in range(len(ys)-1)
         ]
     )
 
@@ -31,7 +32,7 @@ def calc_separation(bounds):
     xs = N.sort(bounds[:,:,0].flatten())
     ys = N.sort(bounds[:,:,1].flatten())
     def separation(zs):
-        return N.sqrt(sum((zs[i] - zs[i+1])**-2 for i in xrange(len(zs)-1)))
+        return N.sqrt(sum((zs[i] - zs[i+1])**-2 for i in range(len(zs)-1)))
     return separation(xs) + separation(ys)
 
 
@@ -41,7 +42,7 @@ def calc_squareness(bounds):
         width = bound[1,0] - bound[0,0]
         height = bound[1,1] - bound[0,1]
         return (width > height and width / height or height / width) - 1
-    return N.sqrt((N.array(map(squareness, bounds))**2).sum())
+    return N.sqrt((N.array(list(map(squareness, bounds)))**2).sum())
 
 
 def calc_areas(bounds):
@@ -83,7 +84,7 @@ def fit_venn4(sets):
     shape = (2, 2, 2, 2)
     sizes = N.zeros(shape, dtype=int) # sizes of all intersections
     union = reduce(set.union, sets)
-    print 'Union has %d entries' % len(union)
+    print('Union has %d entries' % len(union))
     for idx in N.ndindex(2, 2, 2, 2):
         intersection = union
         for dim, intersect in enumerate(idx):
@@ -202,11 +203,11 @@ if '__main__' == __name__:
             )
         )
     }
-    for name, (sets, labels) in test_sets.iteritems():
+    for name, (sets, labels) in test_sets.items():
         sizes = fit_venn4(sets)
         bounds = find_bounds(sizes)
         areas = calc_areas(bounds)
         error = calc_error(areas, sizes)
-        print 'Final error: %f' % error
+        print('Final error: %f' % error)
         svg = create_svg(bounds, sizes=sizes, labels=labels)
         svg.save('venn-4-%s.svg' % name)

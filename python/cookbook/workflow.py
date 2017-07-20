@@ -6,7 +6,7 @@
 Code to set up logging and options in a workflow
 """
 
-import cPickle, logging, os
+import pickle, logging, os
 from .cache_decorator import cachedmethod, pickled_cached_method
 
 
@@ -32,13 +32,13 @@ def caching_decorator(cache_name):
             "Wrapper to cache results of a function."
             pickle_file = os.path.join(get_cache_dir(), '%s.pickle' % cache_name)
             try:
-                results = cPickle.load(open(pickle_file, 'rb'))
+                results = pickle.load(open(pickle_file, 'rb'))
                 logging.info('Unpickled %s', pickle_file)
             except:
                 logging.info('Could not unpickle %s; executing %s()', pickle_file, func.__name__)
                 results = func()
                 logging.info('Pickling %s', pickle_file)
-                cPickle.dump(results, open(pickle_file, 'wb'), protocol=2)
+                pickle.dump(results, open(pickle_file, 'wb'), protocol=2)
             return results
         return wrapper
     return decorator
@@ -95,7 +95,7 @@ def initialise_workflow(options):
     options_py_file = os.path.join(options.output_dir, 'options.py')
     if os.path.exists(options_py_file):
         logging.info('Overriding options from %s', options_py_file)
-        execfile(options_py_file)
+        exec(compile(open(options_py_file).read(), options_py_file, 'exec'))
     else:
         logging.info('No options file: "%s" - using default options.', options_py_file)
 

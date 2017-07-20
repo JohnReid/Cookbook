@@ -9,7 +9,7 @@ An augmented red-black tree that handles intervals.
 """
 
 
-from rbtree import rbnode, rbtree, write_tree_as_dot, test_tree
+from .rbtree import rbnode, rbtree, write_tree_as_dot, test_tree
 from cookbook.interval import Interval
 import logging
 
@@ -168,4 +168,4 @@ if '__main__' == __name__:
     interval_tree = rbintervaltree()
     test_tree(interval_tree, intervals)
     write_tree(interval_tree, 'interval_tree')
-    print interval_tree.find_closest_intervals(Interval(3,30), max_distance=None)
+    print(interval_tree.find_closest_intervals(Interval(3,30), max_distance=None))

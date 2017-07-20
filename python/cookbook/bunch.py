@@ -15,6 +15,6 @@ class Bunch(object):
     def __str__(self):
         return 'Bunch:\n\t%s' % '\n\t'.join(
                 [
-                        '%s:\n%s' % (k,v) for k, v in self.__dict__.iteritems()
+                        '%s:\n%s' % (k,v) for k, v in self.__dict__.items()
                 ]
         )

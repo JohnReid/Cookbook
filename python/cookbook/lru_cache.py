@@ -32,7 +32,7 @@ def lru_cache(maxsize=0, cache_storage_file=None):
             try:
                 cache, queue, refcount = pickle.load(open(cache_storage_file))
             except:
-                print 'Could not load cache from "%s"' % cache_storage_file
+                print('Could not load cache from "%s"' % cache_storage_file)
 
         def dump():
             if None == cache_storage_file:
@@ -75,7 +75,7 @@ def lru_cache(maxsize=0, cache_storage_file=None):
                             queue_append(k)
                         else:
                             _refcount[k] -= 1
-                    assert len(queue) == len(cache) == len(refcount) == sum(refcount.itervalues()), (queue, cache, refcount)
+                    assert len(queue) == len(cache) == len(refcount) == sum(refcount.values()), (queue, cache, refcount)
 
             return result
         wrapper.__doc__ = f.__doc__
@@ -93,9 +93,9 @@ if __name__ == '__main__':
     def f(x, y):
         return 3*x+y
 
-    domain = range(5)
+    domain = list(range(5))
     from random import choice
-    for i in xrange(1000):
+    for i in range(1000):
         r = f(choice(domain), choice(domain))
 
-    print f.hits, f.misses
+    print(f.hits, f.misses)

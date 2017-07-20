@@ -78,7 +78,7 @@ class ChoiceDict(dict):
 
     def __missing__(self, key):
         "Called when key is missing."
-        self[key] = self.it.next()
+        self[key] = next(self.it)
         return self[key]
 
 class UniqueIds(dict):
@@ -102,13 +102,13 @@ if '__main__' == __name__:
 
     lists = DictOfLists()
     lists[key].append(1)
-    print 'Should be [1]:', lists[key]
+    print('Should be [1]:', lists[key])
 
     sets = DictOfSets()
     sets[key].add(1)
     sets[key].add(1)
-    print 'Should be set([1]):', sets[key]
+    print('Should be set([1]):', sets[key])
 
     counts = DictOfInts()
     counts[key] += 1
-    print 'Should be 1:', counts[key]
+    print('Should be 1:', counts[key])

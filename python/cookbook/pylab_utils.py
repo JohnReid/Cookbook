@@ -144,7 +144,7 @@ def violin_plot(ax, data, pos, bp=False, facecolor='y', alpha=0.3):
     from numpy import linspace
     dist = max(pos) - min(pos)
     w = min(0.15 * max(dist, 1.0), 0.5)
-    kdes = map(gaussian_kde, data)
+    kdes = list(map(gaussian_kde, data))
     mins = [k.dataset.min() for k in kdes]
     maxs = [k.dataset.max() for k in kdes]
     xs = [linspace(m, M) for m, M in zip(mins, maxs)]
@@ -165,7 +165,7 @@ def create_format_cycler(**formats):
     def get_format_str(i):
         """Get the format string for the i'th data.
         """
-        return dict((fmt_name, fmt_values[i % len(fmt_values)]) for fmt_name, fmt_values in formats.iteritems())
+        return dict((fmt_name, fmt_values[i % len(fmt_values)]) for fmt_name, fmt_values in formats.items())
     return get_format_str
 
 

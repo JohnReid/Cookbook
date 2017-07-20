@@ -6,10 +6,10 @@ Example usage:
 
   >>> def in_ge20(inval):
   ...    assert inval >= 20, 'Input value < 20'
-  ...
+  ... 
   >>> def out_lt30(retval, inval):
   ...    assert retval < 30, 'Return value >= 30'
-  ...
+  ... 
   >>> @precondition(in_ge20)
   ... @postcondition(out_lt30)
   ... def inc(value):
@@ -84,7 +84,7 @@ class conditions(object):
             function = function._func
 
         # filter out None conditions and build pairs of pre- and postconditions
-        conditions = map(None, filter(None, pres), filter(None, posts))
+        conditions = map(None, [_f for _f in pres if _f], [_f for _f in posts if _f])
 
         # add a wrapper for each pair (note that 'conditions' may be empty)
         for pre, post in conditions:
@@ -115,3 +115,4 @@ def __test():
 
 if __name__ == "__main__":
     __test()
+

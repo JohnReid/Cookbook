@@ -17,7 +17,7 @@ The decorator can be generalized by allowing different caching policies (e.g. a 
 implementing an LRU policy) apart from the implied "cache-forever" policy of a dict.
 """
 
-import logging, cPickle, os
+import logging, pickle, os
 
 def cachedmethod(function):
     return Memoize(function)
@@ -76,13 +76,13 @@ class PickledMemoize(object):
     def load_cache(self):
         "Load the memo from the cache."
         logging.info('Loading pickled memo from %s', self.file)
-        self._cache = cPickle.load(open(self.file, 'rb'))
+        self._cache = pickle.load(open(self.file, 'rb'))
 
     def dump_cache(self):
         "Dump the memo to the cache."
         if self.dirty:
             logging.info('Dumping pickled memo to %s', self.file)
-            cPickle.dump(self._get_cache(), open(self.file, 'wb'), protocol=2)
+            pickle.dump(self._get_cache(), open(self.file, 'wb'), protocol=2)
             self.dirty = False
 
     def _get_cache(self):
@@ -119,19 +119,19 @@ class ImmutableDict(dict):
     def __init__(self,*args,**kwds):
         dict.__init__(self,*args,**kwds)
     def __setitem__(self,key,value):
-        raise NotImplementedError, "dict is immutable"
+        raise NotImplementedError("dict is immutable")
     def __delitem__(self,key):
-        raise NotImplementedError, "dict is immutable"
+        raise NotImplementedError("dict is immutable")
     def clear(self):
-        raise NotImplementedError, "dict is immutable"
+        raise NotImplementedError("dict is immutable")
     def setdefault(self,k,default=None):
-        raise NotImplementedError, "dict is immutable"
+        raise NotImplementedError("dict is immutable")
     def popitem(self):
-        raise NotImplementedError, "dict is immutable"
+        raise NotImplementedError("dict is immutable")
     def update(self,other):
-        raise NotImplementedError, "dict is immutable"
+        raise NotImplementedError("dict is immutable")
     def __hash__(self):
-        return hash(tuple(self.iteritems()))
+        return hash(tuple(self.items()))
 
 
 
@@ -155,12 +155,12 @@ class Picklize(object):
     def __call__(self, *args, **kwds):
         try:
             logging.info('Trying to load %s from %s', self._name, self._file)
-            return cPickle.load(open(self._file, 'rb'))
+            return pickle.load(open(self._file, 'rb'))
         except:
             logging.info('Could not load %s, will recalculate', self._name)
             result = self._callable(*args,**kwds)
             logging.info('Dumping %s to %s', self._name, self._file)
-            cPickle.dump(result, open(self._file, 'wb'), protocol=2)
+            pickle.dump(result, open(self._file, 'wb'), protocol=2)
             return result
 
 

@@ -20,7 +20,7 @@ def equivalence_partition( iterable, relation ):
     for o in iterable: # for each object
         # find the class it is in
         for c in classes:
-            if relation( iter(c).next(), o ): # is it equivalent to this class?
+            if relation( next(iter(c)), o ): # is it equivalent to this class?
                 c.add( o )
                 partitions[o] = c
                 break
@@ -54,7 +54,7 @@ def equivalence_enumeration( iterable, relation ):
 
 def check_equivalence_partition( classes, partitions, relation ):
     """Checks that a partition is consistent under the relationship"""
-    for o, c in partitions.iteritems():
+    for o, c in partitions.items():
         for _c in classes:
             assert (o in _c) ^ (not _c is c)
     for c1 in classes:
@@ -66,9 +66,9 @@ def check_equivalence_partition( classes, partitions, relation ):
 def test_equivalence_partition():
     relation = lambda x,y: (x-y) % 4 == 0
     classes, partitions = equivalence_partition(
-            xrange( -3, 5 ),
+            range( -3, 5 ),
             relation
     )
     check_equivalence_partition( classes, partitions, relation )
-    for c in classes: print c
-    for o, c in partitions.iteritems(): print o, ':', c
+    for c in classes: print(c)
+    for o, c in partitions.items(): print(o, ':', c)

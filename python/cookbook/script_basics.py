@@ -72,19 +72,19 @@ def _log_option_group(option_group, options):
 
 
 def _print_var(name):
-    print '%s=%s' % (name, os.environ[name])
-    print '%s:\n\t' % name, os.environ[name].replace(':', '\n\t')
+    print('%s=%s' % (name, os.environ[name]))
+    print('%s:\n\t' % name, os.environ[name].replace(':', '\n\t'))
 
 
 def show_environment():
     "Print some details about the environment python is running in."
-    print 'PYTHON:\n', sys.version
-    print 'PROCESS:'
+    print('PYTHON:\n', sys.version)
+    print('PROCESS:')
     os.system('ps -ef|grep %d|grep -v "grep %d"' % (os.getpid(), os.getpid()))
-    print 'CWD:\n\t', os.getcwd()
+    print('CWD:\n\t', os.getcwd())
     _print_var('LD_LIBRARY_PATH')
     _print_var('PYTHONPATH')
-    print 'Args:\n\t', '\n\t'.join(sys.argv)
+    print('Args:\n\t', '\n\t'.join(sys.argv))
     
     
 @contextmanager

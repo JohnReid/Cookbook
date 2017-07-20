@@ -9,7 +9,7 @@ class ReverseDict(dict):
     """
     def __init__(self, *args, **kw):
         dict.__init__(self, *args, **kw)
-        self.reverse = dict((reversed(list(i)) for i in self.items()))
+        self.reverse = dict((reversed(list(i)) for i in list(self.items())))
 
     def __setitem__(self, key, value):
         dict.__setitem__(self, key, value)
@@ -26,4 +26,4 @@ class LookupDict(dict):
         dict.__init__(self, *args, **kw)
 
     def lookup(self, value):
-        return [item[0] for item in self.items() if item[1] == value]
+        return [item[0] for item in list(self.items()) if item[1] == value]

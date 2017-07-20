@@ -49,7 +49,7 @@ def cache_in_table(table, *arg_names):
         A decorator that caches the arguments and result of its argument to a table.
         """
         # check arguments are not floats
-        for name, t in table.coltypes.iteritems():
+        for name, t in table.coltypes.items():
             if t.startswith('float'):
                 raise ValueError('cache_in_table does not support matching floating point arguments: %s.' % name)
         
@@ -136,7 +136,7 @@ if '__main__' == __name__:
     # Inspect the table to e
     #
     for row in test_table:
-        print row
+        print(row)
 
     h5file.close()
     del h5file

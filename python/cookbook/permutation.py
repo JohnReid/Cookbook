@@ -9,7 +9,7 @@ Code to handle permutations and their inverses.
 
 def identity_permutation(size):
     "@return: The identity permutation."
-    return range(size)
+    return list(range(size))
 
 
 def invert_permutation(permutation):

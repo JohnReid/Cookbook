@@ -69,12 +69,12 @@ def run_as_subprocess(module_name, function_name, *args, **kwargs):
     """
     Run the named function as a subprocess.
     """
-    import tempfile, subprocess, cPickle, os, logging
+    import tempfile, subprocess, pickle, os, logging
     _args_handle, args_filename = tempfile.mkstemp()
     _result_handle, result_filename = tempfile.mkstemp()
     try:
         to_pickle = args, kwargs
-        cPickle.dump(to_pickle, open(args_filename, 'w'))
+        pickle.dump(to_pickle, open(args_filename, 'w'))
         python_code = "from %s import %s as fn; from cookbook.function_as_task import do_task; do_task(fn, '%s', '%s')" % (
             module_name, function_name, args_filename, result_filename
         )
@@ -82,7 +82,7 @@ def run_as_subprocess(module_name, function_name, *args, **kwargs):
         logging.debug('Running: %s', ' '.join(args))
         check_output(args=args, stderr=subprocess.STDOUT)
         #subprocess.check_call(args=args)
-        result = cPickle.load(open(result_filename))
+        result = pickle.load(open(result_filename))
     finally:
         os.remove(args_filename) # no longer needed
         os.remove(result_filename) # no longer needed
@@ -92,10 +92,10 @@ def run_as_subprocess(module_name, function_name, *args, **kwargs):
 
 def do_task(fn, args_filename, result_filename):
     "Actually do the task."
-    import cPickle
-    args, kw_args = cPickle.load(open(args_filename))
+    import pickle
+    args, kw_args = pickle.load(open(args_filename))
     result = fn(*args, **kw_args)
-    cPickle.dump(result, open(result_filename, 'w'))
+    pickle.dump(result, open(result_filename, 'w'))
 
 
 
@@ -144,7 +144,7 @@ def create_worker_on_queue(q, do_work):
 
 def create_queue(num_worker_threads, do_work):
     "Create a queue and a number of worker threads on it."
-    from Queue import Queue
+    from queue import Queue
     from threading import Thread
     q = Queue()
     for _ in range(num_worker_threads):

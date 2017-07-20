@@ -17,7 +17,7 @@ Copyright © 2012 Josh VanderLinden
 from datetime import datetime
 import locale
 import sys
-import xmlrpclib
+import xmlrpc.client
 
 locale.setlocale(locale.LC_ALL, '')
 
@@ -26,7 +26,7 @@ class PyPIDownloadAggregator(object):
     def __init__(self, package_name, include_hidden=True):
         self.package_name = package_name
         self.include_hidden = include_hidden
-        self.proxy = xmlrpclib.Server('http://pypi.python.org/pypi')
+        self.proxy = xmlrpc.client.Server('http://pypi.python.org/pypi')
         self._downloads = {}
 
         self.first_upload = None
@@ -125,7 +125,7 @@ Possible matches include:
             sep(self.total()),
         )
 
-        print """PyPI Package statistics for: %s
+        print("""PyPI Package statistics for: %s
 
     First Upload: %40s (%s)
     Last Upload:  %40s (%s)
@@ -134,7 +134,7 @@ Possible matches include:
     Fewest downloads:  %35s
     Average downloads: %35s
     Total downloads:   %35s
-""" % params
+""" % params)
 
 def main():
     if len(sys.argv) < 2:
