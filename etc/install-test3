@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-ENV=install-test-env
+ENV=install-test-env3
 [ ! -d $ENV ]
 virtualenv -p python3 $ENV
 . $ENV/bin/activate
