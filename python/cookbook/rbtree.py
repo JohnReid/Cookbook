@@ -1,13 +1,12 @@
 #
 # Copyright John Reid 2009
 #
-
-
-
 """
 A red-black tree implementation.
 """
 
+
+import six
 
 
 class rbnode(object):
@@ -264,7 +263,7 @@ def write_tree_as_dot(t, f, show_nil=False):
 
     def visit_node(node):
         "Visit a node."
-        print("  %s [label=\"%s\", color=\"%s\"];" % (node_id(node), node, node_color(node)), file=f)
+        six.print_("  %s [label=\"%s\", color=\"%s\"];" % (node_id(node), node, node_color(node)), file=f)
         if node.left:
             if node.left != t.nil or show_nil:
                 visit_node(node.left)
